@@ -7,7 +7,7 @@ public class Fish : MonoBehaviour {
 	public float turnSpeed = 4.0f;
 	Vector3 averageHeading;
 	Vector3 averagePosition;
-	float neighborDistance = 2.0f;
+	float neighborDistance = 4.0f;
 
 	// Use this for initialization
 	void Start () {
