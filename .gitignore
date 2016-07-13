@@ -28,3 +28,7 @@ sysinfo.txt
 # Builds
 *.apk
 *.unitypackage
+
+# Exclude Private Asset Bundles
+Assets/Fish-Project*
+Assets/Fish-Project/*

@@ -7,7 +7,9 @@ public class Fish : MonoBehaviour {
 	public float turnSpeed = 4.0f;
 	Vector3 averageHeading;
 	Vector3 averagePosition;
-	float neighborDistance = 4.0f;
+	float neighborDistance = 3.0f;
+
+	bool turning = false;
 
 	// Use this for initialization
 	void Start () {
@@ -16,10 +18,28 @@ public class Fish : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (Random.Range (1, 5) < 2)
-			ApplyRules ();
+		ApplyTankBoundary ();
+
+		if(turning) {
+			Vector3 direction = Vector3.zero - transform.position;
+			transform.rotation = Quaternion.Slerp (transform.rotation,
+				Quaternion.LookRotation (direction),
+				turnSpeed * Time.deltaTime);
+			speed = Random.Range (0.5f, 1);
+		} else {
+			if (Random.Range (0, 5) < 1)
+				ApplyRules ();
+		}
 
 		transform.Translate (0, 0, Time.deltaTime * speed);
+	}
+
+	void ApplyTankBoundary() {
+		if(Vector3.Distance(transform.position, Vector3.zero) >= GlobalFlock.tankSize) {
+			turning = true;
+		} else {
+			turning = false;
+		}
 	}
 
 	void ApplyRules() {
@@ -43,7 +63,7 @@ public class Fish : MonoBehaviour {
 					groupSize++;
 
 					if(dist < 1.0f) {
-						vAvoid += (this.transform.position - go.transform.position);
+						vAvoid = vAvoid + (this.transform.position - go.transform.position);
 					}
 
 					Fish anotherFish = go.GetComponent<Fish> ();

@@ -3,11 +3,12 @@ using System.Collections;
 
 public class GlobalFlock : MonoBehaviour {
 
-	public GameObject fishPrefab;
+	public GameObject defaultFish;
+	public GameObject[] fishPrefabs;
 	public GameObject fishSchool;
 	public static int tankSize = 5;
 
-	static int numFish = 10;
+	static int numFish = 20;
 	public static GameObject[] allFish = new GameObject[numFish];
 	public static Vector3 goalPos = Vector3.zero;
 
@@ -19,7 +20,8 @@ public class GlobalFlock : MonoBehaviour {
 				Random.Range(-tankSize, tankSize),
 				Random.Range(-tankSize, tankSize)
 			);
-			GameObject fish = (GameObject)Instantiate (fishPrefab, pos, Quaternion.identity);
+			GameObject fish = (GameObject)Instantiate (
+				fishPrefabs[Random.Range (0, fishPrefabs.Length)], pos, Quaternion.identity);
 			fish.transform.parent = fishSchool.transform;
 			allFish [i] = fish;
 		}
@@ -31,7 +33,7 @@ public class GlobalFlock : MonoBehaviour {
 	}
 
 	void HandleGoalPos() {
-		if (Random.Range(1, 1000) < 50) {
+		if (Random.Range(1, 10000) < 50) {
 			goalPos = new Vector3 (
 				Random.Range(-tankSize, tankSize),
 				Random.Range(-tankSize, tankSize),
