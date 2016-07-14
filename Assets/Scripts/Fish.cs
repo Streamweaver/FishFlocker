@@ -4,7 +4,7 @@ using System.Collections;
 public class Fish : MonoBehaviour {
 
 	public float speed;
-	public float turnSpeed = 4.0f;
+	//public float turnSpeed = 4.0f;
 	Vector3 averageHeading;
 	Vector3 averagePosition;
 	float neighborDistance = 3.0f;
@@ -24,7 +24,7 @@ public class Fish : MonoBehaviour {
 			Vector3 direction = Vector3.zero - transform.position;
 			transform.rotation = Quaternion.Slerp (transform.rotation,
 				Quaternion.LookRotation (direction),
-				turnSpeed * Time.deltaTime);
+				TurnSpeed () * Time.deltaTime);
 			speed = Random.Range (0.5f, 1);
 		} else {
 			if (Random.Range (0, 5) < 1)
@@ -62,7 +62,7 @@ public class Fish : MonoBehaviour {
 					vCenter += go.transform.position;
 					groupSize++;
 
-					if(dist < 1.0f) {
+					if(dist < 0.75f) {
 						vAvoid = vAvoid + (this.transform.position - go.transform.position);
 					}
 
@@ -81,9 +81,13 @@ public class Fish : MonoBehaviour {
 			if (direction != Vector3.zero) {
 				transform.rotation = Quaternion.Slerp (transform.rotation,
 					Quaternion.LookRotation (direction),
-					turnSpeed * Time.deltaTime);
+					TurnSpeed () * Time.deltaTime);
 			}
 		}
 
  	}
+
+	float TurnSpeed() {
+		return Random.Range (0.2f, 0.6f);
+	}
  }

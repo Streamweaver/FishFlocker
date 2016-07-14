@@ -6,9 +6,9 @@ public class GlobalFlock : MonoBehaviour {
 	public GameObject defaultFish;
 	public GameObject[] fishPrefabs;
 	public GameObject fishSchool;
-	public static int tankSize = 5;
+	public static int tankSize = 7;
 
-	static int numFish = 20;
+	static int numFish = 30;
 	public static GameObject[] allFish = new GameObject[numFish];
 	public static Vector3 goalPos = Vector3.zero;
 
