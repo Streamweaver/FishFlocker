@@ -29,6 +29,15 @@ sysinfo.txt
 *.apk
 *.unitypackage
 
-# Exclude Private Asset Bundles
-Assets/Fish-Project*
-Assets/Fish-Project/*
+# Custom by Dario
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+*.vs
+Thumbs.db
+Thumbs.db.meta
+Assets/UnityVS/Materials.meta
+Assets/@Themes
+Assets/@Themes.meta

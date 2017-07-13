@@ -1,44 +1,51 @@
 ﻿using UnityEngine;
-using System.Collections;
 
-public class GlobalFlock : MonoBehaviour {
+public class GlobalFlock : MonoBehaviour
+{
+    public GameObject[] fishPrefabs;
+    public Transform fishSchool;
+    public GameObject goal;
+    public int TankSize = 7;
+    public int NumFish;
+    public GameObject[] AllFish { get; set; }
+    public Vector3 goalPositon { get; set; }
 
-	public GameObject defaultFish;
-	public GameObject[] fishPrefabs;
-	public GameObject fishSchool;
-	public static int tankSize = 7;
+    public float FishNeighborDistance = 3.0f;
+    public float FishAvoidDistance = 1.5f;
+    public float FishTurnSpeed = 2f;
+    public float FishMinSpeed = 0.5f;
+    public float FishMaxSpeed = 1.0f;
 
-	static int numFish = 30;
-	public static GameObject[] allFish = new GameObject[numFish];
-	public static Vector3 goalPos = Vector3.zero;
+    void Awake()
+    {
+        goalPositon = goal.transform.position;
+        AllFish = new GameObject[NumFish];
+        for (int i = 0; i < NumFish; i++)
+        {
+            Spawn(i);
+        }
+    }
 
-	// Use this for initialization
-	void Start () {
-		for (int i = 0; i < numFish; i++) {
-			Vector3 pos = new Vector3 (
-				Random.Range(-tankSize, tankSize),
-				Random.Range(-tankSize, tankSize),
-				Random.Range(-tankSize, tankSize)
-			);
-			GameObject fish = (GameObject)Instantiate (
-				fishPrefabs[Random.Range (0, fishPrefabs.Length)], pos, Quaternion.identity);
-			fish.transform.parent = fishSchool.transform;
-			allFish [i] = fish;
-		}
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		HandleGoalPos ();
-	}
+    void Update()
+    {
+        goalPositon = goal.transform.position;
+    }
 
-	void HandleGoalPos() {
-		if (Random.Range(1, 10000) < 50) {
-			goalPos = new Vector3 (
-				Random.Range(-tankSize, tankSize),
-				Random.Range(-tankSize, tankSize),
-				Random.Range(-tankSize, tankSize)
-			);
-		}
-	}
+    private void Spawn(int i)
+    {
+        var pos = GetRandomPos();
+        var prefab = fishPrefabs[Random.Range(0, fishPrefabs.Length)];
+        var fish = Instantiate(prefab, pos, Quaternion.identity);
+        fish.transform.SetParent(fishSchool.transform, false);
+        fish.GetComponent<Fish>().GlobalFlock = this;
+        AllFish[i] = fish;
+    }
+
+    private Vector3 GetRandomPos()
+    {
+        var x = Random.Range(-TankSize, TankSize);
+        var y = Random.Range(-TankSize, TankSize);
+        var z = Random.Range(-TankSize, TankSize);
+        return new Vector3(x, y, z);
+    }
 }
